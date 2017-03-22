@@ -15,5 +15,7 @@ public interface CommentService {
 
 	String getUsernameByCommentId(int CommentId);
 
+	List<Comment> getAllComments(int postId, int userId);
+
 	
 }

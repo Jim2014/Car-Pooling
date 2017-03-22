@@ -13,4 +13,6 @@ public interface CommentDao {
 	List<Comment> getAllComments();
 
 	String getUsernameByCommentId(int commentId);
+
+	List<Comment> getAllComments(int postId, int userId);
 }

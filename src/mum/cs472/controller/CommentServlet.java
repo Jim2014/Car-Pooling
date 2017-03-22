@@ -1,6 +1,11 @@
 package mum.cs472.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+import com.alibaba.fastjson.JSON;
+import com.google.gson.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,13 +31,30 @@ public class CommentServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String replyBox = null;
-		String commentId = (String) request.getParameter("commentId");
-
-		if (commentId == null || commentId.isEmpty()) {
+//		int loggedInUserId = Integer.parseInt(request.getParameter("loggedInUserId"));
+		int postId = Integer.parseInt(request.getParameter("postId"));
+		int userId = Integer.parseInt(request.getParameter("userId"));
+		
+		List<Comment> commentLists = commentService.getAllComments(postId, userId);
+		
+		response.setContentType("text/html");
+	    PrintWriter out = response.getWriter();
+	    
+		StringBuilder sb = new StringBuilder();
+		sb.append("<ul>");
+		int count = 0;
+		for(Comment comment : commentLists) {
+			System.out.println("----------");
+			sb.append("<li><b>"+comment.getUsername()+"</b> <i> commented as </i> :"+comment.getComment()+"</li>");
+			count++;
 		}
-		response.setContentType("text/plain");
-		response.getWriter().write(replyBox);
+//		Comment c = commentLists.get(0);
+//		System.out.println(JSON.toJSONString(c));
+		sb.append("</ul>");
+		response.getWriter().write(sb.toString());
+//		response.getWriter().write(JSON.toJSONString(c));
+
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,7 +72,7 @@ public class CommentServlet extends HttpServlet {
 		}
 		response.setContentType("text/plain");
 		response.getWriter().write(request.getParameter("comment"));
-
 	}
 
 }
+

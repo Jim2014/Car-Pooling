@@ -68,17 +68,20 @@ public class Comment {
 	public void setDateUpdated(Date dateUpdated) {
 		this.dateUpdated = dateUpdated;
 	}
-
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getUsername() {
+		return username;
+	}
 
 	@Override
 	public String toString() {
 		return "Comment [commentId=" + commentId + ", userId=" + userId + ", postId=" + postId + ", comment=" + comment
-				+ ", dateCreated=" + dateCreated + ", dateUpdated=" + dateUpdated + "]";
+				+ ", dateCreated=" + dateCreated + ", dateUpdated=" + dateUpdated + username+"]";
 	}
 	
-	public void setUsername(String username) {
-		this.username = username;
-	}
+	
 	
 }
 

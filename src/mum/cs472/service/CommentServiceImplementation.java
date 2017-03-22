@@ -30,4 +30,10 @@ public class CommentServiceImplementation implements CommentService{
 	public String getUsernameByCommentId(int CommentId) {
 		return commentDao.getUsernameByCommentId(CommentId);
 	}
+
+	@Override
+	public List<Comment> getAllComments(int postId, int userId) {
+		
+		return commentDao.getAllComments(postId, userId);
+	}
 }

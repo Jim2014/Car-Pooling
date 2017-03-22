@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-	<script>
+		<script>
 		$(document).ready(function() {
 			$(".likeButton${post.postId}").click(function() {
 				let postId = $('#postId${post.postId}').attr('value');
@@ -19,6 +19,35 @@
 					success : ajaxSuccess,
 					error : ajaxFailure
 				});
+				 function ajaxSuccess(responseText) {
+						console.log('ajax success');
+						$("#ajaxSuccessReturn${post.postId}").text(responseText);
+						$(".likeButton${post.postId}").removeClass("glyphicon glyphicon-thumbs-up").addClass("glyphicon glyphicon-ok");
+					}
+			});
+			
+			$(".commentShowButton${post.postId}").click(function() {
+				let postId = $('#postId${post.postId}').attr('value');
+				let userId = $('#userIdInPost${post.userId}').attr('value');
+				let loggedInUserId = $('#loggedInUserId').attr('value');
+			
+				$.ajax({
+					url : "comment",
+					type : "GET",
+					data : {
+						'userId' : userId,
+						'postId' : postId,
+						'loggedInUserId': loggedInUserId
+					},
+					success : ajaxSuccess3,
+					error : ajaxFailure
+				});
+				function ajaxSuccess3(responseText) {
+					//console.log('comment saved to database--> response txt->'+responseText);
+					
+					$(".ajaxshowComments${post.postId}").html(responseText);
+					$("#commentCount${post.postId}").text(0);		
+				}
 			});
 			
 			$(".replyButton${post.postId}").click(function() {
@@ -49,23 +78,13 @@
 					success : ajaxSuccess2,
 					error : ajaxFailure
 				});
+				function ajaxSuccess2(responseText) {
+					$("#commentCount${post.postId}").text(parseInt($("#commentCount${post.postId}").text()) + 1);
+					$(".replyBox").hide();
+				}
 		});
-	    
-	    
-	    function ajaxSuccess(responseText) {
-			console.log('ajax success');
-			$("#ajaxSuccessReturn${post.postId}").text(responseText);
-			$(".likeButton${post.postId}").removeClass("glyphicon glyphicon-thumbs-up").addClass("glyphicon glyphicon-ok");
-		}
-
-		function ajaxFailure(xhr, status, exception) {
+	   function ajaxFailure(xhr, status, exception) {
 			console.log(xhr, status, exception);
 		}
-		function ajaxSuccess2(responseText) {
-			console.log('comment saved to database--> response txt->'+responseText);
-			$(".replyBox").hide();
-			$("#ajaxSuccessShowComment${post.postId}").append("responseText");
-			
-		}
-	    
+		
 	</script>
